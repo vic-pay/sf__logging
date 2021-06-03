@@ -1,0 +1,21 @@
+input {
+	beats {
+		port => 5044
+		id => "main"
+	}
+}
+
+filter {
+    json {
+        source => "message"
+    }
+}
+
+output {
+	elasticsearch {
+		hosts => "localhost:9200"
+		user => "elastic"
+		password => "changeme"
+		ecs_compatibility => disabled
+	}
+}

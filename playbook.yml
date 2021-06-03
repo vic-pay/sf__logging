@@ -1,0 +1,22 @@
+---
+- hosts: lxd_servers
+  roles: ['lxd_containers']
+  tags:  ['prereq', 'lxd']
+
+- hosts: sf-logging-server-2
+  roles:
+    - role: elk_repo
+      tags: elk_repo
+    - role: elk_server
+      tags: elk_server
+
+- hosts: sf-logging-server-1
+  roles: 
+    - role: elk_repo
+      tags: elk_repo
+    - role: elk_agent
+      tags: elk_agent
+    - role: log_app
+      tags: log_app
+    - role: rsyslog_client
+      tags: rsyslog_client

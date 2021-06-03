@@ -1,0 +1,24 @@
+---
+- name: install kibana package
+  apt:
+    name: ['kibana']
+    state:  present
+
+- name: copy kibana config
+  template:
+    src:   templates/etc/kibana/kibana.yml.j2
+    dest:  /etc/kibana/kibana.yml
+    backup: true
+  register: kibana_config_status
+
+- name: restart kibana
+  systemd:
+    name:    kibana
+    state:   restarted
+  when: kibana_config_status.changed
+
+- name: start and enable kibana
+  systemd:
+    name:    kibana
+    state:   started
+    enabled: yes

@@ -1,0 +1,22 @@
+filebeat.config.inputs: 
+  enabled:        true 
+  path:           ${path.config}/inputs.d/*.yml 
+  reload.enabled: true 
+  reload.period:  300s 
+
+filebeat.config.modules: 
+  enabled:        true 
+  path:           ${path.config}/modules.d/*.yml 
+  reload.enabled: true 
+  reload.period:  300s 
+
+output.logstash:
+  hosts: "10.160.24.32:5044"
+  enabled: true
+
+processors: 
+  - add_host_metadata: ~ 
+ 
+tags: ["test-config"] 
+  
+logging.level: info 

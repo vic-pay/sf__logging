@@ -1,0 +1,18 @@
+---
+all:
+  children:
+    lxd_servers:
+      hosts:
+        localhost:
+          ansible_connection: local
+
+    lxd_containers:
+      hosts:
+        sf-logging-server-1:
+          ansible_connection: lxd
+          ansible_host:       sf-logging-server-1
+          ip_address:         10.160.24.31
+        sf-logging-server-2:
+          ansible_connection: lxd
+          ansible_host:       sf-logging-server-2
+          ip_address:         10.160.24.32

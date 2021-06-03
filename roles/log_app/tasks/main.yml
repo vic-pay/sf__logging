@@ -1,0 +1,6 @@
+---
+- name: copy log app
+  copy:
+    src:  files/log_app.py
+    dest: /root/log_app.py
+    mode: '0755'

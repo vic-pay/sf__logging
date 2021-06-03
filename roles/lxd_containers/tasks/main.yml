@@ -1,0 +1,27 @@
+---
+- name: make and start lxd containers
+  lxd_container:
+    name: "{{ hostvars[item].inventory_hostname }}"
+    state: started
+    source:
+      type:     image
+      mode:     pull
+      server:   https://images.linuxcontainers.org
+      protocol: simplestreams 
+      alias:    ubuntu/21.04
+    profiles:   ["default"]
+    config: {}
+    devices: 
+      eth0: 
+        name:    eth0
+        nictype: bridged
+        parent:  lxdbr0
+        type:    nic
+        ipv4.address: "{{ hostvars[item].ip_address }}"
+      root:
+        path:    /
+        pool:    mnt-pool
+        type:    disk
+    wait_for_ipv4_addresses: true
+    timeout: 600
+  with_items: "{{ groups['lxd_containers'] }}"

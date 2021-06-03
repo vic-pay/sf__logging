@@ -1,0 +1,24 @@
+input {
+  syslog {
+    port => 5045
+#    codec => cef
+    syslog_field => "syslog"
+	id => "syslog"
+  }
+}
+
+## filters to add
+filter {
+     mutate {
+      remove_field => [ "host" ]
+    }
+}
+
+output {
+	elasticsearch {
+		hosts => "localhost:9200"
+		user => "elastic"
+		password => "changeme"
+		ecs_compatibility => disabled
+	}
+}

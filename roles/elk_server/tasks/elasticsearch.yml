@@ -1,0 +1,11 @@
+---
+- name: install elasticsearch package
+  apt:
+    name: ['elasticsearch']
+    state:  present
+    
+- name: start and enable elasticsearch
+  systemd:
+    name:    elasticsearch
+    state:   started
+    enabled: yes

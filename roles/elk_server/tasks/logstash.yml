@@ -1,0 +1,29 @@
+---
+- name: install logstash package
+  apt:
+    name: ['logstash']
+    state:  present
+
+- name: copy configs
+  template:
+    src:   templates{{ item }}.j2
+    dest:  "{{ item }}"
+    backup: true
+  with_items:
+    - /etc/logstash/conf.d/logstash.conf
+    - /etc/logstash/conf.d/syslog.conf
+    - /etc/logstash/logstash.yml
+    - /etc/logstash/pipelines.yml
+  register: logstash_config_status
+
+- name: restart logstash
+  systemd:
+    name:    logstash
+    state:   restarted
+  when: logstash_config_status.changed
+
+- name: start and enable logstash
+  systemd:
+    name:    logstash
+    state:   started
+    enabled: yes
